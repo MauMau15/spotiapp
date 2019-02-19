@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HomeService } from 'src/app/services/home.service';
 
@@ -10,12 +10,15 @@ import { HomeService } from 'src/app/services/home.service';
 export class HomeComponent implements OnInit {
 
   albums:any [] = [];
+  co:boolean;
+  
 
   constructor(private homeService:HomeService) { 
+    this.co = true;
     this.homeService.getNewRelases()
         .subscribe((data:any) => {
-          this.albums = data.albums.items
-          console.log(this.albums)
+          this.albums = data;
+          this.co = false;
         });
   }
 

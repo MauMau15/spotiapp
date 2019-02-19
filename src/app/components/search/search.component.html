@@ -1,13 +1,7 @@
+<app-loading *ngIf="co"></app-loading>
 <div class="row">
   <div class="col">
     <input #artista type="text" (keyup)="buscar(artista.value)" class="form-control" placeholder="Buscar Artista...">
   </div>
 </div>
-<div class="card-columns">
-  <div *ngFor="let artist of artists" class="card">
-    <img [src]="artist.images[0].url" class="card-img-top">
-    <div class="card-title">
-      {{artist.name}}
-    </div>
-  </div>
-</div>
+<app-tarjetas [items]="artists"></app-tarjetas>
