@@ -8,37 +8,53 @@ import { pipe } from 'rxjs';
 })
 export class HomeService {
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-  getQuery(query:string){
+  getQuery(query: string) {
     const urlEndPoint = `https://api.spotify.com/v1/${query}`;
     const headers = new HttpHeaders({
-      'Authorization':'Bearer BQAulz1uiLOcM4vyyxnYcbt7WVqewWB8Gp7WH0FoVaTb2QhRW8zAF2FDLUlLxT-R11efUhvRmYHelhVmRWKcxd8s6OGhCY1NWK2JAivEV4YdDFc32ypRU4PM5Y-EGHILS6q73L4OonRj24Ldpuk'
+      'Authorization': 'Bearer BQBx1Z0Lr_Lz4KLpz1uJ950prXqwbXFclEEZ-hUAzbBNSYgfj-UMoP_6sirxJszQNpi31t_dNtVSMyKorgzw_ZWbfS3DM38lOjMi-Layv36njXKqAXLqwlnPDwwAeGfwZdfOt_Gs_QbuwkCkAvM'
     });
-    return this.httpClient.get(urlEndPoint,{headers});
-  } 
-
-  getNewRelases(){
-    
-    return this.getQuery('browse/new-releases')
-                .pipe(
-                  map(data => {
-                    console.log(data);
-                    return data["albums"].items;
-                  })
-                );
+    return this.httpClient.get(urlEndPoint, { headers });
   }
 
-  getArtista(artista:string){
-    const headers = new HttpHeaders({
-      'Authorization':'Bearer BQDaGtrUMsjwgwIMUWohyvh2t9DlDVQpE89_kTlur7RxG6vOxSz1TgqwDzeqZhKeILM2F7QkR-yygVEydjtZV8Q2psJppyCs-y2BCKDRV24sglxIC2mfH-ne-FOa6fq-EJ0kruoXk0SZmUFdcPk'
-    });
+  getNewRelases() {
+
+    return this.getQuery('browse/new-releases')
+      .pipe(
+        map(data => {
+          //console.log(data);
+          return data["albums"].items;
+        })
+      );
+  }
+
+  getArtistas(artista: string) {
     return this.getQuery(`search?q=${artista}&type=artist`)
-                .pipe(
-                  map( data => { 
-                    console.log(data);
-                    return data['artists'].items;
-                  })
-                );
+      .pipe(
+        map(data => {
+          //console.log(data);
+          return data['artists'].items;
+        })
+      );
+  }
+
+  getArtista(artistaId: any[]) {
+    console.log(artistaId)
+    return this.getQuery(`artists/${artistaId}`)
+      .pipe(
+        map(data => {
+          return data;
+        })
+      )
+  }
+
+  getTopTracks(artistaId: string) {
+    return this.getQuery(`artists/${artistaId}/top-tracks?country=US`)
+      .pipe(
+        map(data => {
+          return data['tracks'];
+        })
+      )
   }
 }

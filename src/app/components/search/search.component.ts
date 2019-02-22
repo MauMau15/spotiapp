@@ -13,11 +13,12 @@ export class SearchComponent implements OnInit {
   constructor(private service:HomeService) { }
 
   ngOnInit() {
+    
   }
 
   buscar(artist:any){
     this.co = true;
-    this.service.getArtista(artist)
+    this.service.getArtistas(artist)
         .subscribe((data:any) => {
           this.artists = data;
           this.co = false;
